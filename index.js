@@ -19,8 +19,41 @@
 
            const cardContainerElem = document.querySelector('.card-container')
 
+           let cards = []
 
-           createCards()
+           const playGameButtonElem = document.getElementById('playGame')
+
+          
+
+
+          loadGame()
+
+           function loadGame(){
+            createCards()
+
+            cards = document.querySelectorAll('.card')
+
+            playGameButtonElem.addEventListener('click', ()=>startGame())
+
+
+           }
+
+           function startGame(){
+            initializeNewGame()
+            startRound()
+           }
+
+           function initializeNewGame(){
+
+           }
+
+           function startRound(){
+            initializeNewRound()
+           }
+
+           function initializeNewRound(){
+
+           }
 
            function createCards()
            {
