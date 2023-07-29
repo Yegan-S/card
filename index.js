@@ -23,6 +23,9 @@
 
            const playGameButtonElem = document.getElementById('playGame')
 
+           const colllapsedGridAreaTemplate = ' "a a" "a a"'
+           const cardCollectCellClass = ".card-pos-a"
+
           
 
 
@@ -47,13 +50,31 @@
 
            }
 
+
            function startRound(){
             initializeNewRound()
+            collectCards()
            }
 
            function initializeNewRound(){
 
            }
+            function collectCards(){
+                transformGridArea(colllapsedGridAreaTemplate)
+                addCardsToGridAreaCell(cardCollectCellClass)
+            }
+
+            function transformGridArea(areas){
+                cardContainerElem.computedStyleMap.gridTemplateAreas = areas
+            }
+
+            function addCardsToGridAreaCell(cellPositionClassName){
+                const cellPositionElem = document.querySelector(cellPositionClassName)
+                cards.forEach((card, index) =>{
+                    addChildElement(cellPositionElem, card)
+                }) 
+            }
+          
 
            function createCards()
            {
