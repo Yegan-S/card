@@ -63,7 +63,8 @@
            function startRound(){
             initializeNewRound()
             collectCards()
-            flipCards(true)
+           flipCards(true)
+            shuffleCards()
            }
 
            function initializeNewRound(){
@@ -120,6 +121,7 @@
                     if(shuffleCount == 500)
                     {
                         clearInterval(id)
+                        dealCards()
                     }
                     else{
                         shuffleCount++;
@@ -138,6 +140,56 @@
                 cardPositions[random1 - 1] = cardPositions[random2 - 1]
                 cardPositions[random2 - 1] = temp
 
+            }
+
+            function dealCards(){
+                addCardsToAppropriateCell()
+                const areaTemplate = returnGridAreaMappedToCardPos()
+
+                transformGridArea(areaTemplate)
+            }
+
+
+            function returnGridAreaMappedToCardPos(){
+
+                let firstPart = ""
+                let secondPart = ""
+                let areas = ""
+
+                cards.forEach((card, index) => {
+                    if(cardPositions(index) == 1)
+                    {
+                        areas = areas + "a"
+                    }
+                    else if (cardPositions(index) == 2)
+                    {
+                        areas = areas + "b"
+                    }
+                      else if (cardPositions(index) == 3)
+                    {
+                        areas = areas + "c"
+                    }
+                      else if (cardPositions(index) == 4)
+                    {
+                        areas = areas + "d"
+                    }
+                    if (index == 1)
+                    {
+                        firstPart = areas.substring(0, areas.length - 1)
+                        areas = "";
+                    }
+                    else if (index == 3) 
+                    {
+                        secondPart = areas.substring(0, areas.length - 1)
+                    }
+                    return `"${firstPart}" "${secondPart}"`
+                 })
+            }
+
+            function addCardsToAppropriateCell(){
+                cards.forEach((card) =>{
+                    addCardToGridCell(card)
+                })
             }
           
 
