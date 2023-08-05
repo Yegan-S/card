@@ -58,8 +58,9 @@
            let maxRound = 4
            let score = 0
 
+           let gameObj = {}
 
-
+           const localStorageGameKey = "HTA"
 
            
 
@@ -99,6 +100,7 @@
             if(canChooseCard())
             {
                 evaluateCardChoice(card)
+                saveGameObjectToLocalStorage(score, roundNum)
                 flipCard(card,false)
 
                 setTimeout(() => {
@@ -207,6 +209,28 @@
 
            }
 
+           function checkForIncompleteGame()
+           {
+            const serializedGameObj = getLocalStorageItemValue(localStorageGameKey)
+            if(serializedGameObj)
+            {
+                gameObj = getObjectFromJSON(serializedGameObj)
+
+                if(gameObj.round >= maxRound)
+                {
+                    removeLocalStorageItem(localStorageGameKey)
+                }
+                else
+                {
+                    if(confirm('Would you like to continue with your last game?'))
+                    {
+                        score = gameObj.score
+                        round = gameObj.round
+                    }
+                }
+            }
+           }
+
            function startGame(){
             initializeNewGame()
             startRound()
@@ -216,6 +240,8 @@
            {
             score = 0
             roundNum = 0
+
+            checkForIncompleteGame()
 
             shufflingInProgress = false
 
@@ -577,6 +603,40 @@
             {
                return '.card-pos-d' 
             }
+           }
+
+           //local storage functions
+
+           function getSerializedObjectAsJSON(obj)
+           {
+            return JSON.stringify(obj)
+           }
+           function getObjectFromJSON(json)
+           {
+            return JSON.parse(json)
+           }
+           function updateLocalStorage(key, value)
+           {
+            localStorage.setItem(key, value)
+           }
+           function removeLocalStorageItem (key)
+           {
+            localStorage.removeItem(key)
+           }
+           function getLocalStorageItemValue(key)
+           {
+            return localStorage.getItem(key)
+           }
+           function updateGameObject(score,round)
+           {
+            gameObj.score = score
+            gameObj.round = round
+
+           }
+           function saveGameObjectToLocalStorage(score,round)
+           {
+            updateGameObject(score,round)
+            updateLocalStorageItem(localStorageGameKey, getSerializedObjectAsJSON(gameObj))
            }
 
            
