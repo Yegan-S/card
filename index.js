@@ -1,14 +1,5 @@
- //<div class="card">
-               // <div class="card-inner">
-                    //<div class="card-front">
-                       // <img src="/images/card-JackClubs.png" alt="" class="card-img">
-                    //</div>
-                   // <div class="card-back">
-                       // <img src="/images/card-back-Blue.png" alt="" class="card-img">
-                   // </div>
-               // </div>
-           // </div>
-           const cardObjectDefinition = [
+
+           const cardObjectDefinitions = [
             {id:1, imagePath:'/images/card-KingHearts.png'},
             {id:2, imagePath:'/images/card-JackClubs.png'},
             {id:3, imagePath:'/images/card-QueenDiamonds.png'},
@@ -30,7 +21,7 @@
            const colllapsedGridAreaTemplate = ' "a a" "a a"'
            const cardCollectCellClass = ".card-pos-a"
 
-           const numCards = cardObjectDefinition.length
+           const numCards = cardObjectDefinitions.length
 
 
            let cardPositions = []
@@ -38,7 +29,7 @@
 
            let gameInProgress = false
            let shufflingInProgress = false
-           let cardsRevealead = false
+           let cardsRevealed = false
 
 
            const currentGameStatusElem = document.querySelector('.current-status')
@@ -55,7 +46,7 @@
 
 
            let roundNum = 0
-           let maxRound = 4
+           let maxRounds = 4
            let score = 0
 
            let gameObj = {}
@@ -70,7 +61,7 @@
           function gameOver()
           {
             updateStatusElement(scoreContainerElem, "none")
-            updateStatusElement(scoreContainerElem, "none")
+            updateStatusElement(roundContainerElem, "none")
 
             const gameOverMessage = `Game Over! Final Score  - <span class= 'badge'>${score}</span>
                                     Click 'Play Game' button to play again`
@@ -84,7 +75,7 @@
           function endRound()
           {
             setTimeout(() => {
-                if(roundNum == maxRound){
+                if(roundNum == maxRounds){
                     gameOver()
                     return
                 }
@@ -112,7 +103,7 @@
 
 
                 },3000)
-                cardsRevealead = true
+                cardsRevealed = true
             }
             
           }
@@ -141,22 +132,22 @@
           function calculateScore()
           {
             const scoreToAdd = calculateScoreToAdd(roundNum)
-            score = score+ scoreToAdd
+            score = score + scoreToAdd
           }
 
           function updateScore()
           {
             calculateScore()
-            updateStatusElement(scoreElem, "block", parimaryColor, ` <span class = 'badge'>${score}</span>`)
+            updateStatusElement(scoreElem, "block", parimaryColor, `Score <span class = 'badge'>${score}</span>`)
           }
 
-          function updateStatusElement(elem, display, color, innerHtml)
+          function updateStatusElement(elem, display, color, innerHTML)
           {
             elem.style.display = display
             if(arguments.length > 2)
             {
                 elem.style.color = color
-                elem.innerHtml = innerHtml
+                elem.innerHTML = innerHTML
             }
 
           }
@@ -190,7 +181,7 @@
 
           function canChooseCard()
           {
-            return gameInProgress == true && !shufflingInProgress && !cardsRevealead
+            return gameInProgress == true && !shufflingInProgress && !cardsRevealed
           }
           
 
@@ -216,7 +207,7 @@
             {
                 gameObj = getObjectFromJSON(serializedGameObj)
 
-                if(gameObj.round >= maxRound)
+                if(gameObj.round >= maxRounds)
                 {
                     removeLocalStorageItem(localStorageGameKey)
                 }
@@ -249,13 +240,14 @@
             updateStatusElement(roundContainerElem,"flex")
 
             updateStatusElement(scoreElem,"block",parimaryColor, `Score <span class='badge'>${score}</span>`)
-            updateStatusElement(scoreElem,"block",parimaryColor, `Round <span class='badge'>${roundNum}</span>`)
+            updateStatusElement(roundElem,"block",parimaryColor, `Round <span class='badge'>${roundNum}</span>`)
             
 
            }
 
 
            function startRound(){
+
             initializeNewRound()
             collectCards()
            flipCards(true)
@@ -269,7 +261,7 @@
 
             gameInProgress = true
             shufflingInProgress = true
-            cardsRevealead = false
+            cardsRevealed = false
 
 
             updateStatusElement(currentGameStatusElem, "block", parimaryColor, "Shuffling...")
@@ -280,15 +272,17 @@
 
             function collectCards(){
                 transformGridArea(colllapsedGridAreaTemplate)
-                addCardsToGridAreaCell(cardCollectCellClass)
+                addCardsToGridAreaCell(cardCollectionCellClass)
             }
 
             function transformGridArea(areas){
-                cardContainerElem.computedStyleMap.gridTemplateAreas = areas
+                cardContainerElem.style.gridTemplateAreas = areas
             }
 
             function addCardsToGridAreaCell(cellPositionClassName){
+
                 const cellPositionElem = document.querySelector(cellPositionClassName)
+
                 cards.forEach((card, index) =>{
                     addChildElement(cellPositionElem, card)
                 }) 
@@ -392,7 +386,7 @@
                         shufflingInProgress = false
                         removeShuffleClasses()
                         dealCards()
-                        updateStatusElement(currentGameStatusElem, "block", parimaryColor, "Please click the card that you think is yhe Ace of Spades...")
+                        updateStatusElement(currentGameStatusElem, "block", parimaryColor, "Please click the card that you think is the Ace of Spades...")
                     }
                     else{
                         shuffleCount++;
@@ -429,21 +423,21 @@
                 let areas = ""
 
                 cards.forEach((card, index) => {
-                    if(cardPositions(index) == 1)
+                    if(cardPositions[index] == 1)
                     {
-                        areas = areas + "a"
+                        areas = areas + "a "
                     }
-                    else if (cardPositions(index) == 2)
+                    else if (cardPositions[index] == 2)
                     {
-                        areas = areas + "b"
+                        areas = areas + "b "
                     }
-                      else if (cardPositions(index) == 3)
+                      else if (cardPositions[index] == 3)
                     {
-                        areas = areas + "c"
+                        areas = areas + "c "
                     }
-                      else if (cardPositions(index) == 4)
+                      else if (cardPositions[index] == 4)
                     {
-                        areas = areas + "d"
+                        areas = areas + "d "
                     }
                     if (index == 1)
                     {
@@ -454,9 +448,10 @@
                     {
                         secondPart = areas.substring(0, areas.length - 1)
                     }
+                    })
                     return `"${firstPart}" "${secondPart}"`
-                 })
-            }
+                 }
+            
 
             function addCardsToAppropriateCell(){
                 cards.forEach((card) =>{
@@ -465,9 +460,10 @@
             }
           
 
+
            function createCards()
            {
-            cardObjectDefinition.forEach((cardItem) => {
+            cardObjectDefinitions.forEach((cardItem) => {
                 createCard(cardItem)
             })
            }
@@ -615,7 +611,7 @@
            {
             return JSON.parse(json)
            }
-           function updateLocalStorage(key, value)
+           function updateLocalStorageItem(key, value)
            {
             localStorage.setItem(key, value)
            }

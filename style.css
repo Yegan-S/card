@@ -1,6 +1,7 @@
 :root{
     --card-width-lg:157px;
     --card-height-lg:220px;
+
     --card-width-sm: 120px;
     --card-height-sm: 168px;
 
@@ -92,9 +93,7 @@ main{
 .card-back{
     transform: rotateY(180deg);
 }
-.card:hover .card-inner{
-    transform: rotateY(180deg);
-}
+
 .card-inner.flip-it{
     transform: rotateY(180deg);
 }
@@ -167,7 +166,7 @@ header{
     color: #3B3B3B;
     cursor: pointer;
     display: none;
-    font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: var(--primary-font);
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
