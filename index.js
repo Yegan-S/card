@@ -19,7 +19,7 @@
             const cardContainerElem = document.querySelector('.card-container')
 
            const colllapsedGridAreaTemplate = ' "a a" "a a"'
-           const cardCollectCellClass = ".card-pos-a"
+           const cardCollectionCellClass = ".card-pos-a"
 
            const numCards = cardObjectDefinitions.length
 
@@ -75,7 +75,8 @@
           function endRound()
           {
             setTimeout(() => {
-                if(roundNum == maxRounds){
+                if(roundNum == maxRounds)
+                {
                     gameOver()
                     return
                 }
@@ -144,6 +145,7 @@
           function updateStatusElement(elem, display, color, innerHTML)
           {
             elem.style.display = display
+
             if(arguments.length > 2)
             {
                 elem.style.color = color
@@ -216,7 +218,7 @@
                     if(confirm('Would you like to continue with your last game?'))
                     {
                         score = gameObj.score
-                        round = gameObj.round
+                        roundNum = gameObj.round
                     }
                 }
             }
@@ -246,7 +248,9 @@
            }
 
 
-           function startRound(){
+           function startRound()
+           
+           {
 
             initializeNewRound()
             collectCards()
@@ -275,17 +279,19 @@
                 addCardsToGridAreaCell(cardCollectionCellClass)
             }
 
-            function transformGridArea(areas){
+            function transformGridArea(areas) 
+            {
                 cardContainerElem.style.gridTemplateAreas = areas
             }
 
-            function addCardsToGridAreaCell(cellPositionClassName){
+            function addCardsToGridAreaCell(cellPositionClassName)
+            {
 
                 const cellPositionElem = document.querySelector(cellPositionClassName)
 
                 cards.forEach((card, index) =>{
                     addChildElement(cellPositionElem, card)
-                }) 
+                })
             }
 
             function flipCard(card, flipToBack){
@@ -314,9 +320,9 @@
             function cardFlyInEffect()
             {
                 const id = setInterval(flyIn, 5)
-                let cardCount = 0;
+                let cardCount = 0
 
-                let count = 0;
+                let count = 0
 
                 function flyIn()
                 {
@@ -395,7 +401,8 @@
 
             }
 
-            function randomizeCardPositions(){
+            function randomizeCardPositions()
+            {
 
                 const random1 = Math.floor(Math.random() * numCards) + 1
                 const random2 = Math.floor(Math.random() * numCards) + 1
@@ -408,7 +415,8 @@
 
             }
 
-            function dealCards(){
+            function dealCards()
+            {
                 addCardsToAppropriateCell()
                 const areaTemplate = returnGridAreaMappedToCardPos()
 
@@ -416,7 +424,8 @@
             }
 
 
-            function returnGridAreaMappedToCardPos(){
+            function returnGridAreaMappedToCardPos()
+            {
 
                 let firstPart = ""
                 let secondPart = ""
@@ -448,12 +457,15 @@
                     {
                         secondPart = areas.substring(0, areas.length - 1)
                     }
+
                     })
+
                     return `"${firstPart}" "${secondPart}"`
                  }
             
 
-            function addCardsToAppropriateCell(){
+            function addCardsToAppropriateCell()
+            {
                 cards.forEach((card) =>{
                     addCardToGridCell(card)
                 })
@@ -583,6 +595,7 @@
            }
 
            function mapCardIdToGridCell(card){
+            
             if(card.id == 1) 
             {
                 return '.card-pos-a'
